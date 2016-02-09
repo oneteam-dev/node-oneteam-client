@@ -1,0 +1,31 @@
+{
+  "name": "Oneteam Inc.",
+  "timezone_offset": 0,
+  "profile_photo": {
+    "sha1": "d03d02fa6c3d3b6c533e6fdd3de550284f717f9b",
+    "name": "oneteam.png",
+    "size": 38270,
+    "url": "https://api.one-team.io/files/9txsw7zvbx3r9hyg",
+    "content_type": "image/png",
+    "key": "9txsw7zvbx3r9hyg",
+    "preview_url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/thumbnail?type=preview",
+    "download_url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/content?download=1",
+    "thumbnail_url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/thumbnail?type=thumb",
+    "original_url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/content",
+    "thumbnails": {
+      "preview": {
+        "url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/thumbnail?type=preview",
+        "width": 654,
+        "height": 720
+      },
+      "thumb": {
+        "url": "https://files.one-team.io/files/9txsw7zvbx3r9hyg/thumbnail?type=thumb",
+        "width": 240,
+        "height": 240
+      }
+    }
+  },
+  "locale": "en",
+  "key": "0477da4455de51dc",
+  "team_name": "oneteam"
+}

@@ -1,0 +1,40 @@
+{
+  "name": "node-oneteam-client",
+  "version": "0.0.1",
+  "description": "Oneteam Node.js Client",
+  "main": "index",
+  "scripts": {
+    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
+    "prepublish": "npm run build",
+    "build": "node_modules/.bin/coffee -c .",
+    "clean": "rm -f index.js && rm -f src/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oneteam-dev/node-oneteam-client.git"
+  },
+  "keywords": [
+    "oneteam",
+    "communication",
+    "chat",
+    "messaging",
+    "collaboration"
+  ],
+  "author": "Oneteam Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oneteam-dev/node-oneteam-client/issues"
+  },
+  "homepage": "https://github.com/oneteam-dev/node-oneteam-client#readme",
+  "dependencies": {
+    "pusher-node-client": "git+https://github.com/ngs/pusher-node-client.git#auth-endpoint",
+    "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coffee-script": "^1.10.0",
+    "mocha": "^2.4.5",
+    "nock": "^7.0.2",
+    "sinon": "^1.17.3"
+  }
+}
