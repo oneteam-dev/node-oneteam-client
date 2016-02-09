@@ -88,6 +88,6 @@ class Client extends EventEmitter
   team: (teamName, callback) ->
     @get "/teams/#{teamName}", (err, res, body) =>
       return callback err if err ||= @errorResponse body
-      callback null, new Team(@, body)
+      callback null, new Team(@, teamName, body)
 
 module.exports = Client
