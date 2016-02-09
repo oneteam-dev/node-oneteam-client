@@ -16,14 +16,15 @@ class Client extends EventEmitter
     @clientSecret ||= null
     @pusherClient = null
 
-  connect: ->
-    return if @connected
+  connect: (callback) ->
+    return callbaack() if @connected
     @pusherClient = new PusherClient
       key: @pusherKey
       authEndpoint: "#{@baseURL}/pusher/auth"
     @pusherClient.on 'connect', =>
       @connected = yes
       @emit 'connected'
+      callback()
     @pusherClient.connect()
 
   request: (method, path, data, callback) ->
@@ -68,6 +69,14 @@ class Client extends EventEmitter
       return callback err, null if err ||= @errorResponse body
       @accessToken = access_token || null
       callback null, @accessToken
+
+  subscribeChannel: (channelName, callback) ->
+    @fetchAccessToken (err, accessToken) =>
+      return callbaack err, null if err
+      @connect =>
+        channel = @pusherClient.subscribe channelName, {accessToken}
+        channel.on 'success', -> callback null, channel
+        channel.on 'pusher:error', (e) -> callback e, null
 
   errorResponse: (data) ->
     {errors} = data
