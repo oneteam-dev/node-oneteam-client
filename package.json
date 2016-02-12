@@ -7,7 +7,8 @@
     "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
     "prepublish": "npm run build",
     "build": "node_modules/.bin/coffee -c .",
-    "clean": "rm -f index.js && rm -f src/*.js"
+    "clean": "rm -f index.js && rm -f src/*.js",
+    "topic-client": "node_modules/.bin/coffee examples/topic-client.coffee"
   },
   "repository": {
     "type": "git",

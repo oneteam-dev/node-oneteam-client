@@ -13,7 +13,7 @@ class Team extends EventEmitter
     @client.subscribeChannel channelName, (err, channel) =>
       bindEvent = (eventName, DataClass) =>
         channel.on "comuque:#{eventName}", (data) =>
-          @emit eventName.replace('-', ':'), new DataClass(@, data.key, data)
+          @emit eventName.replace('-', ':'), new DataClass(@client, data.key, data)
       bindEvent 'topic-created', Topic
       bindEvent 'topic-updated', Topic
       bindEvent 'topic-deleted', Topic

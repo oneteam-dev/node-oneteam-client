@@ -6,8 +6,8 @@ request = require 'request'
 
 class Client extends EventEmitter
 
-  baseURL: 'https://api.one-team.io'
-  pusherKey: 'd62fcfd64facee71a178'
+  baseURL: process.env.ONETEAM_BASE_API_URL or 'https://api.one-team.io'
+  pusherKey: process.env.ONETEAM_PUSHER_KEY or 'd62fcfd64facee71a178'
 
   constructor: ({ @accessToken, @clientSecret, @clientKey }) ->
     @connected = no
@@ -64,6 +64,7 @@ class Client extends EventEmitter
       .createHmac('sha256', @clientSecret)
       .update("#{@clientKey}:#{timestamp}")
       .digest('hex')
+    console.info timestamp, secret_token
     @post "/clients/#{@clientKey}/access_tokens", {timestamp, secret_token}, (err, httpResponse, body) =>
       {access_token} = body
       return callback err, null if err ||= @errorResponse body
@@ -83,11 +84,16 @@ class Client extends EventEmitter
     if msg = errors?[0].message
       new Error msg
 
-  timestamp: -> Math.ceil Date.now() / 1000
+  timestamp: -> Date.now()
 
   team: (teamName, callback) ->
     @get "/teams/#{teamName}", (err, res, body) =>
       return callback err if err ||= @errorResponse body
       callback null, new Team(@, teamName, body)
+
+  self: (callback) ->
+    @get '/clients/self', (err, res, body) =>
+      return callback err if err ||= @errorResponse body
+      callback null, body
 
 module.exports = Client
