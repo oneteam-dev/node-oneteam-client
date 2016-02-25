@@ -1,5 +1,6 @@
 {EventEmitter} = require 'events'
 Topic = require './topic'
+Message = require './message'
 Group = require './group'
 
 class Team extends EventEmitter
@@ -17,6 +18,9 @@ class Team extends EventEmitter
       bindEvent 'topic-created', Topic
       bindEvent 'topic-updated', Topic
       bindEvent 'topic-deleted', Topic
+      bindEvent 'message-created', Message
+      bindEvent 'message-updated', Message
+      bindEvent 'message-deleted', Message
       @pusherChannel = channel
 
 module.exports = Team

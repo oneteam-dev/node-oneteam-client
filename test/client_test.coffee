@@ -11,9 +11,10 @@ describe 'client', ->
   currentTime = 1455008759942
 
   beforeEach ->
+    process.env.ONETEAM_BASE_API_URL = 'https://api.one-team.test'
     client = new Client opts
     clock = sinon.useFakeTimers currentTime
-    nockScope = nock 'https://api.one-team.io'
+    nockScope = nock 'https://api.one-team.test'
     nock.disableNetConnect()
 
   afterEach ->
@@ -46,8 +47,8 @@ describe 'client', ->
       context 'when request succeeded', ->
         beforeEach ->
           nockScope
-            .post '/clients/fake-key/access_tokens'
-            .reply 201, { access_token: 'qwerty' }
+            .post '/clients/fake-key/tokens'
+            .reply 201, { token: 'qwerty' }
 
         it 'callbacks with accessToken', (done) ->
           subject (err, data) ->
@@ -59,7 +60,7 @@ describe 'client', ->
       context 'when request failed', ->
         beforeEach ->
           nockScope
-            .post '/clients/fake-key/access_tokens'
+            .post '/clients/fake-key/tokens'
             .reply 400, { errors: [{message: 'bad req'}] }
 
         it 'callbacks with accessToken', (done) ->
@@ -74,8 +75,8 @@ describe 'client', ->
     beforeEach ->
       subject = client.team.bind client
       nockScope
-        .post '/clients/fake-key/access_tokens'
-        .reply 201, { access_token: 'qwerty' }
+        .post '/clients/fake-key/tokens'
+        .reply 201, { token: 'qwerty' }
     before ->
       opts =
         clientKey: 'fake-key'

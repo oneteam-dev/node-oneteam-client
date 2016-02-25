@@ -15,4 +15,7 @@ client.team process.env.TEAM_NAME, (err, t) ->
     console.info t
   t.subscribe()
 
+client.subscribeChannel 'private-system', (e, res) ->
+  console.info e, res
+
 console.info client

@@ -11,9 +11,10 @@ describe 'team', ->
   currentTime = 1455008759942
 
   beforeEach ->
+    process.env.ONETEAM_BASE_API_URL = 'https://api.one-team.test'
     client = new Client opts
     clock = sinon.useFakeTimers currentTime
-    nockScope = nock 'https://api.one-team.io'
+    nockScope = nock 'https://api.one-team.test'
     nock.disableNetConnect()
 
   afterEach ->

@@ -6,14 +6,13 @@ request = require 'request'
 
 class Client extends EventEmitter
 
-  baseURL: process.env.ONETEAM_BASE_API_URL or 'https://api.one-team.io'
-  pusherKey: process.env.ONETEAM_PUSHER_KEY or 'd62fcfd64facee71a178'
-
-  constructor: ({ @accessToken, @clientSecret, @clientKey }) ->
+  constructor: ({ @accessToken, @clientSecret, @clientKey, @pusherKey, @baseURL }) ->
+    @baseURL ?= process.env.ONETEAM_BASE_API_URL or 'https://api.one-team.io'
+    @pusherKey ?= process.env.ONETEAM_PUSHER_KEY or 'd62fcfd64facee71a178'
     @connected = no
-    @accessToken ||= null
-    @clientKey ||= null
-    @clientSecret ||= null
+    @accessToken ?= null
+    @clientKey ?= null
+    @clientSecret ?= null
     @pusherClient = null
 
   connect: (callback) ->
@@ -45,7 +44,7 @@ class Client extends EventEmitter
         if typeof body is 'string'
           body = try JSON.parse body
         callback err, req, body
-    if /\/access_tokens$/.test path
+    if /\/tokens$/.test path
       fn.call @
     else
       @fetchAccessToken fn
@@ -64,11 +63,12 @@ class Client extends EventEmitter
       .createHmac('sha256', @clientSecret)
       .update("#{@clientKey}:#{timestamp}")
       .digest('hex')
-    console.info timestamp, secret_token
-    @post "/clients/#{@clientKey}/access_tokens", {timestamp, secret_token}, (err, httpResponse, body) =>
-      {access_token} = body
+    @post "/clients/#{@clientKey}/tokens", {timestamp, secret_token}, (err, httpResponse, body) =>
+      console.info err
+      body ?= {}
+      {token} = body
       return callback err, null if err ||= @errorResponse body
-      @accessToken = access_token || null
+      @accessToken = token || null
       callback null, @accessToken
 
   subscribeChannel: (channelName, callback) ->
