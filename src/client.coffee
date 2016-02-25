@@ -26,11 +26,21 @@ class Client extends EventEmitter
       callback()
     @pusherClient.connect()
 
-  request: (method, path, data, callback) ->
+
+  # request(method, class, path, callback)
+  # request(method, class, path, data, callback)
+  # request(method, path, callback)
+  # request(method, path, data, callback)
+  request: (method, klass, path, data, callback) ->
+    if typeof klass is 'string'
+      callback = data
+      data = path
+      path = klass
+      klass = null
+    if typeof data is 'function' and not callback
+      callback = data
+      data = undefined
     fn = =>
-      if typeof data is 'function' and not callback
-        callback = data
-        data = undefined
       url = "#{@baseURL}#{path}"
       headers = {}
       headers['Authorization'] = "Bearer #{@accessToken}" if @accessToken
@@ -43,6 +53,9 @@ class Client extends EventEmitter
       request url, opts, (err, req, body) =>
         if typeof body is 'string'
           body = try JSON.parse body
+        err ?= @errorResponse body
+        if typeof klass is 'function' && !err && (key = body.key)
+          body = new klass @, key, body
         callback err, req, body
     if /\/tokens$/.test path
       fn.call @
@@ -64,7 +77,6 @@ class Client extends EventEmitter
       .update("#{@clientKey}:#{timestamp}")
       .digest('hex')
     @post "/clients/#{@clientKey}/tokens", {timestamp, secret_token}, (err, httpResponse, body) =>
-      console.info err
       body ?= {}
       {token} = body
       return callback err, null if err ||= @errorResponse body

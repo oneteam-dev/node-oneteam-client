@@ -1,4 +1,3 @@
-Client = require '../src/client'
 {expect} = require 'chai'
 nock = require 'nock'
 sinon = require 'sinon'
@@ -9,9 +8,11 @@ describe 'client', ->
   clock = null
   nockScope = null
   currentTime = 1455008759942
+  Client = null
 
   beforeEach ->
     process.env.ONETEAM_BASE_API_URL = 'https://api.one-team.test'
+    Client = require '../src/client'
     client = new Client opts
     clock = sinon.useFakeTimers currentTime
     nockScope = nock 'https://api.one-team.test'

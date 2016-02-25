@@ -6,6 +6,14 @@ class Topic extends EventEmitter
     @key ||= topic_key || key
     @htmlBody = html_body
 
+  path: () -> "/topics/#{@key}"
+
+  createMessage: (body, callback) ->
+    @client.post Message, "#{@path()}/messages", {body}, callback
+
+  del: (callback) ->
+    @client.del @path(), callback
+
   subscribe: ->
     channelName = "private-topic-#{@key}"
     @client.subscribeChannel channelName, (err, channel) =>

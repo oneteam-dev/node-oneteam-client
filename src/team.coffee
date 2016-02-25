@@ -9,6 +9,12 @@ class Team extends EventEmitter
     @timezoneOffset = timezone_offset
     @profilePhoto = profile_photo
 
+  path: () -> "/teams/#{@teamName}"
+
+  createTopic: (topic, callback) ->
+    {title, body} = topic
+    @client.post Topic, "#{@path()}/topics", topic, callback
+
   subscribe: ->
     channelName = "presence-team-#{@teamName}"
     @client.subscribeChannel channelName, (err, channel) =>
