@@ -16,7 +16,7 @@ class Client extends EventEmitter
     @pusherClient = null
 
   connect: (callback) ->
-    return callbaack() if @connected
+    return callback() if @connected
     @pusherClient = new PusherClient
       key: @pusherKey
       authEndpoint: "#{@baseURL}/pusher/auth"
