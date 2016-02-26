@@ -1,5 +1,5 @@
 {
-  "name": "node-oneteam-client",
+  "name": "oneteam-client",
   "version": "0.0.1",
   "description": "Oneteam Node.js Client",
   "main": "index",
